@@ -1,4 +1,4 @@
-# three-careakers-v001
+# three-careakers-v001  -- "BabyAPI"
 
 These are currently run off my server. I will be pushing to heroku soon.
 
@@ -24,6 +24,14 @@ There are 3 TableNames
 * NeedersLookingForMatch
 * CaretakersLookingForMatch
 * MatchedClusters
+
+Example:
+```
+http://ab86fd25.ngrok.io/api/v1/NeedersLookingForMatch
+```
+That means, you can type that in your browser or Postman and should see a JSON result. 
+
+the `ab86fd25.ngrok.io` is the hostname as of 2:14pm US New York Time on SUN 3/22. If that host is dead, go to the discord and message @hocho
 
 all variables are of string type.
 
