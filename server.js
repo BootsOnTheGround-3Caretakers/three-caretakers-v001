@@ -29,83 +29,135 @@ console.log(process.env.MONGODB_URI)
 mongoose.connect(process.env.MONGODB_URI)
 var Schema=mongoose.Schema
 
-var Image= mongoose.model('Image', new mongoose.Schema({
-  imageURL: String,
-  categories: [String],
-  createdAt: Date,
+// Define models
+//
+// V0001 Schema - to be built by Hocho in restify.
+// NeedersLookingForMatch
+// Email
+// Name
+// ZipCode (we know this is USA specific, this is just for v1mockups)
+// Description
+// Custom1
+// Custom2
+//
+var NeedersLookingForMatch= mongoose.model('NeedersLookingForMatch', new mongoose.Schema({
+  email: String,
+  name: String,
+  ZipCode: String,
+  Description: String,
+  Custom1: String,
+  Custom2: String,
 }))
 
-var StoredGames= mongoose.model('Game', new mongoose.Schema({
-  game: Schema.Types.Mixed
+//
+//
+// CaretakersLookingForMatch
+// Email
+// Name
+// ZipCode (we know this is USA specific, this is just for v1mockups)
+// Description
+// Custom1
+// Custom2
+var CaretakersLookingForMatch= mongoose.model('CaretakersLookingForMatch', new mongoose.Schema({
+  email: String,
+  name: String,
+  ZipCode: String,
+  Description: String,
+  Custom1: String,
+  Custom2: String,
 }))
 
 
-restify.serve(router, Image)
-restify.serve(router, StoredGames)
+// MatchedClusters
+// Needer Email
+// ZipCodeCommon
+// Caretaker1 Email
+// Caertaker2 Email
+// Caretaker3 Email
+// Extra JSONS
+// Saving the name and and descriptions of the Needers and Caretakers. We have this in case we need to Disband a MatchedCluster and then people go back to the LookingForMatch tables.
+
+
+var MatchedClusters= mongoose.model('MatchedClusters', new mongoose.Schema({
+  NeederEmail: String,
+  ZipCodeCommon: String,
+  Caretaker1Email: String,
+  Caretaker2Email: String,
+  Caretaker3Email: String,
+  ExtraJSONstrings: String // This is a JSONstringify of an object with the 1Needer+3Caretakers.
+       // No standard is set on this. Carefully check the object to see if it conforms
+       // to what you expect. I suggest storing a "typekey" in the object so you
+       // can tell your call to the v001 database API works.
+}))
+
+
+restify.serve(router, NeedersLookingForMatch)
+restify.serve(router, CaretakersLookingForMatch)
+restify.serve(router, MatchedClusters)
 
 
 app.use(router)
-
-app.get('/getOneSpecialCardThenEraseWithFallback', function(req, res) {
-  Image.find({categories: "special"}).count().exec(function(err,count) {
-    console.log("SPECIAL COUNT", count)
-    if (count>0) {
-      var random=Math.floor(Math.random()*count);
-      Image.findOneAndRemove({categories: "special"})
-      .exec(function(err, imageRecord) {
-        if (err) {
-          res.json(err)
-        } else {
-          res.json(imageRecord)
-        }
-      })
-    } else {
-      getOneImageRecordPromise()
-      .then((imageRec)=>{res.json(imageRec)})
-    }
-  })
-})
-
-app.get('/removeSpecialCards', function(req,res) {
-  Image.deleteMany({categories: "special"}).exec(
-    function (err, imageRecords) {
-      if(err) {
-        res.json(err)
-      } else {
-        res.json(imageRecords)
-      }
-    }
-  )
-})
-
-app.get('/getOneRandomCard', function(req,res) {
-  Image.count().exec(function(err,count) {
-    var random=Math.floor(Math.random()*count);
-    Image.findOne().skip(random).exec(
-      function (err, imageRecord) {
-        if(err) {
-          res.json(err)
-        } else {
-          res.json(imageRecord)
-        }
-      }
-    )
-  })
-})
-
-function getOneImageRecordPromise() {
-  var thePromise= new Promise(function(resolve, reject) {
-    Image.count().exec(function(err,count) {
-      var random=Math.floor(Math.random()*count);
-      Image.findOne().skip(random).exec(
-        function (err, ImageRecords) {
-          resolve(ImageRecords) /// zzzz does not handle error correctly.
-        }
-      )
-    })
-  })
-  return(thePromise);
-}
+//
+// app.get('/getOneSpecialCardThenEraseWithFallback', function(req, res) {
+//   Image.find({categories: "special"}).count().exec(function(err,count) {
+//     console.log("SPECIAL COUNT", count)
+//     if (count>0) {
+//       var random=Math.floor(Math.random()*count);
+//       Image.findOneAndRemove({categories: "special"})
+//       .exec(function(err, imageRecord) {
+//         if (err) {
+//           res.json(err)
+//         } else {
+//           res.json(imageRecord)
+//         }
+//       })
+//     } else {
+//       getOneImageRecordPromise()
+//       .then((imageRec)=>{res.json(imageRec)})
+//     }
+//   })
+// })
+//
+// app.get('/removeSpecialCards', function(req,res) {
+//   Image.deleteMany({categories: "special"}).exec(
+//     function (err, imageRecords) {
+//       if(err) {
+//         res.json(err)
+//       } else {
+//         res.json(imageRecords)
+//       }
+//     }
+//   )
+// })
+//
+// app.get('/getOneRandomCard', function(req,res) {
+//   Image.count().exec(function(err,count) {
+//     var random=Math.floor(Math.random()*count);
+//     Image.findOne().skip(random).exec(
+//       function (err, imageRecord) {
+//         if(err) {
+//           res.json(err)
+//         } else {
+//           res.json(imageRecord)
+//         }
+//       }
+//     )
+//   })
+// })
+//
+// function getOneImageRecordPromise() {
+//   var thePromise= new Promise(function(resolve, reject) {
+//     Image.count().exec(function(err,count) {
+//       var random=Math.floor(Math.random()*count);
+//       Image.findOne().skip(random).exec(
+//         function (err, ImageRecords) {
+//           resolve(ImageRecords) /// zzzz does not handle error correctly.
+//         }
+//       )
+//     })
+//   })
+//   return(thePromise);
+// }
 
 //
 // function testPromise() {
