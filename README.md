@@ -1,7 +1,11 @@
 # three-careakers-v001
 
-These are currently run off my server. I will be trying to push to
+These are currently run off my server. I will be pushing to heroku soon.
 
+### Routes
+These are the routes: (replace the replaceme.com with the IP and port or hostname and port)
+
+```
 GET http://replaceme.com/api/v1/Customer/count
 GET http://replaceme.com/api/v1/Customer
 POST http://replaceme.com/api/v1/Customer
@@ -13,7 +17,7 @@ PUT http://replaceme.com/api/v1/Customer/:id
 POST http://replaceme.com/api/v1/Customer/:id
 PATCH http://replaceme.com/api/v1/Customer/:id
 DELETE http://replaceme.com/api/v1/Customer/:id
-
+```
 Instead of Customer, use the table name.
 
 There are 3 TableNames
