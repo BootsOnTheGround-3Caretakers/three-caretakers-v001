@@ -35,7 +35,10 @@ the `ab86fd25.ngrok.io` is the hostname as of 2:14pm US New York Time on SUN 3/2
 
 all variables are of string type.
 
+## Queries
+More queries (like sort order) are in this doc. https://florianholzapfel.github.io/express-restify-mongoose/
 
+##
 This is the raw code (as of 3/20). Check the actual github in case there are changes.
 
 ```
