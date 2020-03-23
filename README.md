@@ -1,6 +1,6 @@
 # three-careakers-v001  -- "BabyAPI"
 
-These are currently run off my server. I will be pushing to heroku soon.
+These are currently run off my server. I will not push to Heroku. I'm just leaving this on and using ngrok to tunnel. (I will update the server address below if it needs to change).
 
 ### Routes
 These are the routes: (replace the replaceme.com with the IP and port or hostname and port)
