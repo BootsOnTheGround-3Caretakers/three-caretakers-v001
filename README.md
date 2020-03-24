@@ -29,6 +29,7 @@ Example:
 ```
 http://c29a9953.ngrok.io/api/v1/NeedersLookingForMatch
 ```
+(clickable: http://c29a9953.ngrok.io/api/v1/NeedersLookingForMatch)
 That means, you can type that in your browser or Postman and should see a JSON result. 
 
 the `http://c29a9953.ngrok.io ` is the hostname as of 2:14pm US New York Time on SUN 3/22. If that host is dead, go to the discord and message @hocho
