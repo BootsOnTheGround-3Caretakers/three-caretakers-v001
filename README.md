@@ -30,7 +30,7 @@ Example:
 http://c29a9953.ngrok.io/api/v1/NeedersLookingForMatch
 ```
 (clickable: http://c29a9953.ngrok.io/api/v1/NeedersLookingForMatch)
-That means, you can type that in your browser or Postman and should see a JSON result. 
+That means, you can type that in your browser or Postman and should see a JSON result.
 
 the `http://c29a9953.ngrok.io ` is the hostname as of 2:14pm US New York Time on SUN 3/22. If that host is dead, go to the discord and message @hocho
 
@@ -65,17 +65,27 @@ var CaretakersLookingForMatch= mongoose.model('CaretakersLookingForMatch', new m
 ```
 
 ```
-var MatchedClusters= mongoose.model('MatchedClusters', new mongoose.Schema({
-  NeederEmail: String,
-  ZipCodeCommon: String,
-  Caretaker1Email: String,
-  Caretaker2Email: String,
-  Caretaker3Email: String,
-  ExtraJSONstrings: String // This is a JSONstringify of an object with the 1Needer+3Caretakers.
-       // No standard is set on this. Carefully check the object to see if it conforms
-       // to what you expect. I suggest storing a "typekey" in the object so you
-       // can tell your call to the v001 database API works.
-}))
+var MatchedClusters = mongoose.model(
+  "MatchedClusters",
+  new mongoose.Schema({
+    NeederEmail: String,
+    ZipCodeCommon: String,
+    Caretaker1Email: String,
+    Caretaker2Email: String,
+    Caretaker3Email: String,
+    Caretaker4Email: String,
+    Caretaker5Email: String,
+    Caretaker6Email: String,
+    Caretaker7Email: String,
+    Caretaker8Email: String,
+    Caretaker9Email: String,
+    Caretaker10Email: String,
+    ExtraJSONstrings: String // This is a JSONstringify of an object with the 1Needer+3Caretakers.
+    // No standard is set on this. Carefully check the object to see if it conforms
+    // to what you expect. I suggest storing a "typekey" in the object so you
+    // can tell your call to the v001 database API works.
+  })
+);
 ```
 
 # Old Notes
