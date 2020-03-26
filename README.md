@@ -1,6 +1,6 @@
 # three-careakers-v001  -- "BabyAPI"
 
-These are currently run off my server. I will be pushing to heroku soon.
+These are currently run off my server. I will not push to Heroku. I'm just leaving this on and using ngrok to tunnel. (I will update the server address below if it needs to change).
 
 ### Routes
 These are the routes: (replace the replaceme.com with the IP and port or hostname and port)
@@ -29,6 +29,7 @@ Example:
 ```
 http://c29a9953.ngrok.io/api/v1/NeedersLookingForMatch
 ```
+(clickable: http://c29a9953.ngrok.io/api/v1/NeedersLookingForMatch)
 That means, you can type that in your browser or Postman and should see a JSON result. 
 
 the `http://c29a9953.ngrok.io ` is the hostname as of 2:14pm US New York Time on SUN 3/22. If that host is dead, go to the discord and message @hocho
