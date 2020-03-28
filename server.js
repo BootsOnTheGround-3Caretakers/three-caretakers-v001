@@ -106,10 +106,12 @@ var MatchedClusters = mongoose.model(
     Caretaker8Email: String,
     Caretaker9Email: String,
     Caretaker10Email: String,
-    ExtraJSONstrings: String // This is a JSONstringify of an object with the 1Needer+3Caretakers.
+    ExtraJSONstrings: String, // This is a JSONstringify of an object with the 1Needer+3Caretakers.
     // No standard is set on this. Carefully check the object to see if it conforms
     // to what you expect. I suggest storing a "typekey" in the object so you
     // can tell your call to the v001 database API works.
+    MatchCustom101: String,
+    MatchCustom102: String,
   })
 );
 
