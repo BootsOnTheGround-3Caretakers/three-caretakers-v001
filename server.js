@@ -47,7 +47,9 @@ var NeedersLookingForMatch = mongoose.model(
     email: String,
     name: String,
     ZipCode: String,
-    Description: String,
+    Description: String, // This is the need description
+    AdditionalInfo: String, // longer information, like a narrative of what happened, context.
+                           // They can also provide a facebook/IG/ link.
     Custom1: String,
     Custom2: String,
     Hashtags: String, // separated by spaces
@@ -72,6 +74,7 @@ var CaretakersLookingForMatch = mongoose.model(
     name: String,
     ZipCode: String,
     Description: String,
+    AdditionalInfo: String,
     Custom1: String,
     Custom2: String,
     Hashtags: String, // separated by spaces
