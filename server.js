@@ -43,6 +43,7 @@ var Schema = mongoose.Schema;
 var NeedersLookingForMatch = mongoose.model(
   "NeedersLookingForMatch",
   new mongoose.Schema({
+    updated: { type: Date, default: Date.now },
     email: String,
     name: String,
     ZipCode: String,
@@ -66,6 +67,7 @@ var NeedersLookingForMatch = mongoose.model(
 var CaretakersLookingForMatch = mongoose.model(
   "CaretakersLookingForMatch",
   new mongoose.Schema({
+    updated: { type: Date, default: Date.now },
     email: String,
     name: String,
     ZipCode: String,
@@ -89,6 +91,7 @@ var CaretakersLookingForMatch = mongoose.model(
 var MatchedClusters = mongoose.model(
   "MatchedClusters",
   new mongoose.Schema({
+    updated: { type: Date, default: Date.now },
     ClusterIsActive: Boolean,
     NeederEmail: String,
     ZipCodeCommon: String,
