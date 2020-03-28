@@ -58,6 +58,7 @@ var NeedersLookingForMatch = mongoose.model(
     Custom1: String,
     Custom2: String,
     Hashtags: String, // separated by spaces
+    RequestedClusterSize: Number, //if empty, assume 3. A hospital might make a request for 45 helpers for something
   })
 );
 
@@ -75,7 +76,7 @@ var CaretakersLookingForMatch = mongoose.model(
     Custom1: String,
     Custom2: String,
     Hashtags: String, // Hashtags. Example "#VETERAN, #LGBT, #PREGNANT"
-    SlotCount: Number,
+    SlotCount: Number, // 6 means they'd be happy to be matched into 6 clusters. I.e. they are bored/helpful
   })
 );
 
