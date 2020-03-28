@@ -46,46 +46,8 @@ This is the raw code (as of 3/20). Check the actual github in case there are cha
 var NeedersLookingForMatch= mongoose.model('NeedersLookingForMatch', new mongoose.Schema({
   email: String,
   name: String,
-  ZipCode: String,
-  Description: String,
-  Custom1: String,
-  Custom2: String,
-}))
-```
-
-```
-var CaretakersLookingForMatch= mongoose.model('CaretakersLookingForMatch', new mongoose.Schema({
-  email: String,
-  name: String,
-  ZipCode: String,
-  Description: String,
-  Custom1: String,
-  Custom2: String,
-}))
-```
-
-```
-var MatchedClusters = mongoose.model(
-  "MatchedClusters",
-  new mongoose.Schema({
-    NeederEmail: String,
-    ZipCodeCommon: String,
-    Caretaker1Email: String,
-    Caretaker2Email: String,
-    Caretaker3Email: String,
-    Caretaker4Email: String,
-    Caretaker5Email: String,
-    Caretaker6Email: String,
-    Caretaker7Email: String,
-    Caretaker8Email: String,
-    Caretaker9Email: String,
-    Caretaker10Email: String,
-    ExtraJSONstrings: String // This is a JSONstringify of an object with the 1Needer+3Caretakers.
-    // No standard is set on this. Carefully check the object to see if it conforms
-    // to what you expect. I suggest storing a "typekey" in the object so you
-    // can tell your call to the v001 database API works.
-  })
-);
+   // more fields and 3 tables.
+  // LOOK FOR THE STUB in the server.js file
 ```
 
 # Old Notes
