@@ -89,6 +89,7 @@ var CaretakersLookingForMatch = mongoose.model(
 var MatchedClusters = mongoose.model(
   "MatchedClusters",
   new mongoose.Schema({
+    ClusterIsActive: Boolean,
     NeederEmail: String,
     ZipCodeCommon: String,
     HashtagsCommon: String,
