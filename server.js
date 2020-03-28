@@ -38,6 +38,7 @@ var Schema = mongoose.Schema;
 // Description
 // Custom1
 // Custom2
+// Hashtags. Example "#VETERAN, #LGBT, #PREGNANT"
 //
 var NeedersLookingForMatch = mongoose.model(
   "NeedersLookingForMatch",
@@ -47,7 +48,8 @@ var NeedersLookingForMatch = mongoose.model(
     ZipCode: String,
     Description: String,
     Custom1: String,
-    Custom2: String
+    Custom2: String,
+    Hashtags: String, // separated by spaces
   })
 );
 
@@ -60,6 +62,7 @@ var NeedersLookingForMatch = mongoose.model(
 // Description
 // Custom1
 // Custom2
+// Hashtags. Example "#VETERAN, #LGBT, #PREGNANT"
 var CaretakersLookingForMatch = mongoose.model(
   "CaretakersLookingForMatch",
   new mongoose.Schema({
@@ -68,13 +71,15 @@ var CaretakersLookingForMatch = mongoose.model(
     ZipCode: String,
     Description: String,
     Custom1: String,
-    Custom2: String
+    Custom2: String,
+    Hashtags: String, // separated by spaces
   })
 );
 
 // MatchedClusters
 // Needer Email
 // ZipCodeCommon
+// HashtagsCommon. Example "#VETERAN, #LGBT, #PREGNANT"
 // Caretaker1 Email
 // Caertaker2 Email
 // Caretaker3 Email
@@ -86,6 +91,7 @@ var MatchedClusters = mongoose.model(
   new mongoose.Schema({
     NeederEmail: String,
     ZipCodeCommon: String,
+    HashtagsCommon: String,
     Caretaker1Email: String,
     Caretaker2Email: String,
     Caretaker3Email: String,
