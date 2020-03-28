@@ -46,8 +46,13 @@ var NeedersLookingForMatch = mongoose.model(
     updated: { type: Date, default: Date.now },
     email: String,
     name: String,
-    ZipCode: String,
-    Description: String, // This is the need description
+    ZipCode: String,  //TODO ZZZZ: Full geo would have
+                    ///  Country, StateOrRegion, ZipOrPostalCodeEquivalent
+                    ///  very rural, rural, semi-rural, semi-urban, urban, very urban
+                    ///  Street Address they typed in (not checked)
+                    ///  LatLong
+                    ///  Don't store as a string. Store as separate fields.
+    Description: String, // This is the need description //TODO ZZZZ: change this to NeedsDescription, an array
     AdditionalInfo: String, // longer information, like a narrative of what happened, context.
                            // They can also provide a facebook/IG/ link.
     Custom1: String,
@@ -56,15 +61,7 @@ var NeedersLookingForMatch = mongoose.model(
   })
 );
 
-//
-//
-// CaretakersLookingForMatch
-// Email
-// Name
-// ZipCode (we know this is USA specific, this is just for v1mockups)
-// Description
-// Custom1
-// Custom2
+
 // Hashtags. Example "#VETERAN, #LGBT, #PREGNANT"
 var CaretakersLookingForMatch = mongoose.model(
   "CaretakersLookingForMatch",
@@ -73,23 +70,18 @@ var CaretakersLookingForMatch = mongoose.model(
     email: String,
     name: String,
     ZipCode: String,
-    Description: String,
+    Description: String, //TODO ZZZZ: change this to CareDescription, an array
     AdditionalInfo: String,
     Custom1: String,
     Custom2: String,
-    Hashtags: String, // separated by spaces
+    Hashtags: String, // Hashtags. Example "#VETERAN, #LGBT, #PREGNANT"
+    SlotCount: Number,
   })
 );
 
 // MatchedClusters
-// Needer Email
-// ZipCodeCommon
-// HashtagsCommon. Example "#VETERAN, #LGBT, #PREGNANT"
-// Caretaker1 Email
-// Caertaker2 Email
-// Caretaker3 Email
-// Extra JSONS
-// Saving the name and and descriptions of the Needers and Caretakers. We have this in case we need to Disband a MatchedCluster and then people go back to the LookingForMatch tables.
+
+
 
 var MatchedClusters = mongoose.model(
   "MatchedClusters",
@@ -98,7 +90,7 @@ var MatchedClusters = mongoose.model(
     ClusterIsActive: Boolean,
     NeederEmail: String,
     ZipCodeCommon: String,
-    HashtagsCommon: String,
+    HashtagsCommon: String, // HashtagsCommon. Example "#VETERAN, #LGBT, #PREGNANT"
     Caretaker1Email: String,
     Caretaker2Email: String,
     Caretaker3Email: String,
