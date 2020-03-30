@@ -111,6 +111,18 @@ var MatchedClusters = mongoose.model(
   })
 );
 
+app.use(function(req, res, next) {
+  var str = req.get('Authorization');
+  if (str==="3CAREGIVERS") {
+    console.log("Authorization GOOD!");
+    next();
+  } else {
+    console.log("Authorization incorrect or missing");
+    res.status(401);
+    res.send("Authorization incorrect or missing");
+  }
+});
+
 restify.serve(router, NeedersLookingForMatch);
 restify.serve(router, CaretakersLookingForMatch);
 restify.serve(router, MatchedClusters);
@@ -194,14 +206,7 @@ app.use(router);
 // })
 // console.log("THIS WRONG")
 
-app.get("/getNRandomCard/:num", function(req, res) {
-  console.log("getNRandomCard", new Date());
-  var myPromises = [];
-  for (var i = 1; i <= req.params.num; i++) {
-    myPromises.push(getOneImageRecordPromise());
-  }
-  Promise.all(myPromises).then((resultsArray) => res.json(resultsArray));
-});
+
 
 let port = 3195;
 app.listen(process.env.PORT || port, () => {
