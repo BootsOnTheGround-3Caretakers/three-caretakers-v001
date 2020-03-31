@@ -25,13 +25,15 @@ There are 3 TableNames
 * CaretakersLookingForMatch
 * MatchedClusters
 
+Update 3/31. Added a table to deal with Twilio
+* TwilioBlob
+
 Example:
 ```
-http://c29a9953.ngrok.io/api/v1/NeedersLookingForMatch
+http://c29a9953.ngrok.io/api/v1/MatchedClusters
 ```
-(clickable: http://c29a9953.ngrok.io/api/v1/NeedersLookingForMatch)
-This no longer works (3/31). You have to put AUTHENTICATION in the HTTP header. You will get an authetication error.
-That means, you can type that in your browser or Postman and should see a JSON result.
+(clickable: http://c29a9953.ngrok.io/api/v1/MatchedClusters)
+NOTE:: This no longer works (3/31). You have to put AUTHENTICATION in the HTTP header. You will get an authentication error. See 3/30 message on authentication in discord channel or read the server.js code.
 
 the `http://c29a9953.ngrok.io ` is the hostname as of 2:14pm US New York Time on SUN 3/22. If that host is dead, go to the discord and message @hocho
 
