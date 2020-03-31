@@ -111,6 +111,18 @@ var MatchedClusters = mongoose.model(
   })
 );
 
+var TwilioBlob = mongoose.model(
+  "TwilioBlob",
+  new mongoose.Schema({
+    updated: { type: Date, default: Date.now },
+    TwilioJSONBlob: String, // This is a JSONstringify of whatever Twilio gives us.
+    Custom701: String,
+    Custom702: String,
+  })
+);
+
+
+
 app.use(function(req, res, next) {
   var str = req.get('Authorization');
   if (str==="3CAREGIVERS") {
@@ -121,6 +133,11 @@ app.use(function(req, res, next) {
     res.status(401);
     res.send("Authorization incorrect or missing");
   }
+});
+
+app.use(function(req, res, next) {
+  console.log(req.get('Authorization'));
+  next();
 });
 
 restify.serve(router, NeedersLookingForMatch);
