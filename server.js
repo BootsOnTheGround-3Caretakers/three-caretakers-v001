@@ -125,6 +125,7 @@ var TwilioBlob = mongoose.model(
 
 app.use(function(req, res, next) {
   var str = req.get('Authorization');
+  console.log(Date().toString());
   if (str==="3CAREGIVERS") {
     console.log("Authorization GOOD!");
     next();
@@ -141,6 +142,7 @@ app.use(function(req, res, next) {
 });
 
 restify.serve(router, NeedersLookingForMatch);
+restify.serve(router, TwilioBlob);
 restify.serve(router, CaretakersLookingForMatch);
 restify.serve(router, MatchedClusters);
 
