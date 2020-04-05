@@ -24,8 +24,9 @@ mongoose.connection.on("error", function(err) {
   console.log("Mongoose default connection error!");
 });
 
-console.log(process.env.MONGODB_URI);
-mongoose.connect(process.env.MONGODB_URI);
+var mongodb_uri = process.env.NODE_ENV === 'dev' ?  process.env.MONGODB_URI : 'mongodb://liam:JumpJordanJump23@ds049598.mlab.com:49598/liamtest'
+console.log(`NODE_ENV: ${process.env.NODE_ENV}, MONGODB_URI ${mongodb_uri}`);
+mongoose.connect(mongodb_uri);
 var Schema = mongoose.Schema;
 
 // Define models
@@ -416,3 +417,5 @@ let port = 3195; // backupPort if none specified
 app.listen(process.env.PORT || port, () => {
   console.log(`Express server listening on port ${process.env.PORT || port}`);
 });
+
+module.exports = { app, GiveOffers, NeedRequests, CriticalGroups, Tags, StandardNeedOffers, Users}
