@@ -33,13 +33,36 @@ var Schema = mongoose.Schema;
 // V0002 (ToddlerAPI) Schema
 // (see https://docs.google.com/spreadsheets/d/1eypLAXlzGPenjPoNDPqgVsZotLbvCEtYYxaEm-oGFVg/edit#gid=1376543690)
 
+var StandardNeedOffersSchema = new mongoose.Schema({
+   updated: { type: Date, default: Date.now },
+   needOfferName: { type: String, unique: true },  //LIAM DONE HOCHO CHECK
+})
 var StandardNeedOffers = mongoose.model(
   "StandardNeedOffers",
-  new mongoose.Schema({
-     updated: { type: Date, default: Date.now },
-     needOfferName: { type: String, default: Date.now },  //NEED
-  })
+  StandardNeedOffersSchema
 );
+
+var TagsSchema = new mongoose.Schema({
+   updated: { type: Date, default: Date.now },
+   "approved": Boolean,
+   hashtagName: { type: String, unique: true },  //LIAM DONE HOCHO CHECK
+})
+
+
+var Tags = mongoose.model(
+  "Tags",
+  TagsSchema,
+);
+
+var CriticalGroupsSchema = new mongoose.Schema({
+   updated: { type: Date, default: Date.now },
+   CiritcalGroupName: { type: String, unique: true, required: true },  //LIAM DONE HOCHO CHECK
+})
+var CriticalGroups = mongoose.model(
+  "CriticalGroups",
+  CriticalGroupsSchema
+);
+
 
 // * Users
 //   * Includes information on the GiveOffers
@@ -67,7 +90,7 @@ var Users = mongoose.model(
     email: {
       address: String,
       verified: Boolean,
-      adminNotes: String,  //NEW Liam notes: messages , array, and timestamps of notes
+      adminNotes: String,  //NEW
     },
 
 //     "phone" : {
@@ -90,10 +113,19 @@ var Users = mongoose.model(
 //             "type": "social"
 //         }
 //     ],
-    otherUrls: [ ASK LIAM ]
+    otherUrls: [ //LIAM DONE
+      {
+        url: String,
+        type: String,
+      }
+    ],
 
 //     "criticalCategories": ["medical", "elderly"],
-    criticalCategories: [String]  // should be typechecked, maybe enum from another table?
+    criticalCategories: [   {
+                   type: Schema.Types.ObjectId,
+                   ref: "CriticalGroups",
+                 }   ],  // LIAM DONE HOCHO CHECKED should be typechecked, Later: maybe enum from another table?
+
 //     "address": {
 //         "regionCode": string,
 //         "languageCode": string,
@@ -110,6 +142,22 @@ var Users = mongoose.model(
 //             "lon" : -84.54428
 //         }
 //     },
+    address: {
+        "regionCode": String, // TODO: enum on the server before doing a write.
+        "languageCode": String,
+        "postalCode": String,
+        "sortingCode": String,
+        "administrativeArea": String,
+        "locality": String,
+        "sublocality": String,
+        "addressLines": [
+            String
+        ],
+        "geo" : {
+            "lat" : Number,
+            "lon" : Number,
+        },
+    },
 //     "hashTags" : [
 //         {
 //             "required": True,
@@ -117,8 +165,21 @@ var Users = mongoose.model(
 //             "verified": False
 //         }
 //     ],
+
+    "HashTags" : [  /// TODO in server logic: put some restrictions on creation of new hashtags,
+                    ///  so as not to overload the server.  //HC: this is the approved field. We will only display/tabulate approved hashtags. Unapproved are tracked but not used for tabulations. Maybe use it for matching.
+                    {
+                                 type: Schema.Types.ObjectId,
+                                 ref: "Tags",
+                               }
+    ],
+
 //     "isFirstResponder" : true,
+    "isFirstResponder" : Boolean,
+
 //     "stillHaveToPhysicallyGoToWork" : false,
+    "stillHaveToPhysicallyGoToWork" : Boolean,
+
 //     "giveOffer" : [
 //         {
 //             "name" : "NavigatingBureacracy",
@@ -127,9 +188,18 @@ var Users = mongoose.model(
 //             "assignedSlots" : 0
 //         }
 //     ],
+
+"giveOffer" : [              {
+               type: Schema.Types.ObjectId,
+               ref: "GiveOffers",
+             }
+], //LIAM, can you check that?
+
 //     "redFlag": False,
+    "redFlag": Boolean,
+
 //     "freeNotes": "adfasdf"
-// }
+    "freeNotes": String,
    })
 );
 
@@ -140,63 +210,126 @@ var Users = mongoose.model(
 //   * The need information is stored here in `needName`
 //
 
-var NeederRequests = mongoose.model(
-  "NeederRequests",
+var NeedRequests = mongoose.model(
+  "NeedRequests",
   new mongoose.Schema({
     updated: { type: Date, default: Date.now },
-    email: String,
-    name: String,
-    ZipCode: String,  //TODO ZZZZ: Full geo would have
-                    ///  Country, StateOrRegion, ZipOrPostalCodeEquivalent
-                    ///  very rural, rural, semi-rural, semi-urban, urban, very urban
-                    ///  Street Address they typed in (not checked)
-                    ///  LatLong
-                    ///  Don't store as a string. Store as separate fields.
-    Description: String, // This is the need description //TODO ZZZZ: change this to NeedsDescription, an array
-    AdditionalInfo: String, // longer information, like a narrative of what happened, context.
-                           // They can also provide a facebook/IG/ link.
-    Custom1: String,
-    Custom2: String,
-    Hashtags: String, // separated by spaces
-    RequestedClusterSize: Number, //if empty, assume 3. A hospital might make a request for 45 helpers for something
+    // sample NeedRequest:
+
+    // {
+    //           "user_id" : 25000,
+    "linkedNeeder_user_id" :              {
+                   type: Schema.Types.ObjectId,
+                   ref: "Users",
+                 } ,  // LIAM HELP/DOUBLECHECK: I just want the id for the user.   See: https://mongoosejs.com/docs/guide.html#_id
+
+    //           "geo" : {
+    //             "lat" : 39.475889,
+    //             "lon" : -82.07959
+    //           },
+          "geo" : {
+            "lat" : Number,
+            "lon" : Number,
+          },
+    //           "tags" : [
+    //             {name: "Baptist","required": Boolean }   // NEW
+    //             "english",
+    //             "teacher",
+    //             "LowIncome"
+    //           ],
+          hashTags: [ {
+            tag: {
+              type: Schema.Types.ObjectId,
+              ref: "Tags",
+            },
+            requiredThisTag: Boolean, //If required, then
+          }],
+    //           "needName" : [
+    //             "MedicationPickup"
+    //           ],
+          PrimaryNeedName :
+            {
+              type: Schema.Types.ObjectId,
+              ref: "StandardNeedOffers",
+            },
+          "nonPrimaryNeedNames" : [
+            {
+              type: Schema.Types.ObjectId,
+              ref: "StandardNeedOffers",
+            }
+          ],
+
+           "assignedGivers" : [
+             {
+               type: Schema.Types.ObjectId,
+               ref: "Users",
+             }
+           ],  // LIAM, see what you did for the ids in linkedNeeder_user_id, but here it's an array
+              //HOCHO guess, Liam, please check
+
+
+    //           "cluster" : {
+    //             "userRequestedLimit" : 3,
+    //             "adminRequestedLimit" : 2,
+    //             "assigned" : 0,
+    //             "remainingNeeded" : 3
+    //           },
+          "clusterSizeParameters" : {
+              "userRequestedLimit" : Number,
+              "adminRequestedLimit" : Number,
+              "assigned" : Number,
+              "remainingNeeded" : Number
+            },
+    //           "priority" : 4
+          priority: Number, // higher number is higher priority
+    //         }
   })
 );
 
 
 // * GiveOffers
-//   * offerName
-//   * totalSlots
-//   * availableSlots
-//   * assignedSlots
-
+var GiveOfferSchema=new mongoose.Schema({
+  updated: { type: Date, default: Date.now },
+  "name" : String,
+  "totalSlots" : Number,
+  "availableSlots" : Number,
+  "assignedSlots" : Number,
+});
+var GiveOffers = mongoose.model(
+  "GiveOffers",
+  GiveOfferSchema,
+);
 
 
 app.get('/versionName', function(req, res, next) {
-  res.send("ToddlerAPI 4_5_2020, simple authentication is on.")
+  res.send("ToddlerAPI 4_5_2020, simple authentication is off.")
 });
 
-// Authorization via a simple key.
-app.use(function(req, res, next) {
-  var str = req.get('Authorization');
-  console.log(Date().toString());
-  if (str==="3CAREGIVERS") {
-    console.log("Authorization GOOD!");
-    next();
-  } else {
-    console.log("Authorization incorrect or missing");
-    res.status(401);
-    res.send("Authorization incorrect or missing");
-  }
-});
+// // Authorization via a simple key.
+// app.use(function(req, res, next) {
+//   var str = req.get('Authorization');
+//   console.log(Date().toString());
+//   if (str==="3CAREGIVERS") {
+//     console.log("Authorization GOOD!");
+//     next();
+//   } else {
+//     console.log("Authorization incorrect or missing");
+//     res.status(401);
+//     res.send("Authorization incorrect or missing");
+//   }
+// });
 
-app.use(function(req, res, next) {
-  console.log(req.get('Authorization'));
-  next();
-});
+// app.use(function(req, res, next) {
+//   console.log(req.get('Authorization'));
+//   next();
+// });
 
-restify.serve(router, NeedersLookingForMatch);
-restify.serve(router, CaretakersLookingForMatch);
-restify.serve(router, MatchedClusters);
+restify.serve(router, GiveOffers);
+restify.serve(router, NeedRequests);
+restify.serve(router, CriticalGroups);
+restify.serve(router, Tags);
+restify.serve(router, StandardNeedOffers);
+restify.serve(router, Users);
 
 app.use(router);
 //
@@ -279,7 +412,7 @@ app.use(router);
 
 
 
-let port = 3195;
+let port = 3195; // backupPort if none specified
 app.listen(process.env.PORT || port, () => {
   console.log(`Express server listening on port ${process.env.PORT || port}`);
 });
