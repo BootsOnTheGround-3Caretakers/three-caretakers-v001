@@ -32,8 +32,9 @@ Example:
 ```
 http://c29a9953.ngrok.io/api/v1/MatchedClusters
 ```
-(clickable: http://c29a9953.ngrok.io/api/v1/MatchedClusters)
+(clickable: http://c29a9953.ngrok.io/api/v1/MatchedClusters/count)
 NOTE:: This no longer works (3/31). You have to put AUTHENTICATION in the HTTP header. You will get an authentication error. See 3/30 message on authentication in discord channel or read the server.js code.
+NOTE: (4/4) We are turning on and off Authentication from time to time.
 
 the `http://c29a9953.ngrok.io ` is the hostname as of 2:14pm US New York Time on SUN 3/22. If that host is dead, go to the discord and message @hocho
 
