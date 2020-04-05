@@ -122,20 +122,23 @@ var TwilioBlob = mongoose.model(
   })
 );
 
+app.get('versionName', function(req, res, next) {
+  res.send("ToddlerAPI 4_5_2020, simple authentication is on.")
+});
 
-
-// app.use(function(req, res, next) {
-//   var str = req.get('Authorization');
-//   console.log(Date().toString());
-//   if (str==="3CAREGIVERS") {
-//     console.log("Authorization GOOD!");
-//     next();
-//   } else {
-//     console.log("Authorization incorrect or missing");
-//     res.status(401);
-//     res.send("Authorization incorrect or missing");
-//   }
-// });
+// Authorization via a simple key.
+app.use(function(req, res, next) {
+  var str = req.get('Authorization');
+  console.log(Date().toString());
+  if (str==="3CAREGIVERS") {
+    console.log("Authorization GOOD!");
+    next();
+  } else {
+    console.log("Authorization incorrect or missing");
+    res.status(401);
+    res.send("Authorization incorrect or missing");
+  }
+});
 
 app.use(function(req, res, next) {
   console.log(req.get('Authorization'));

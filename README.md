@@ -1,4 +1,8 @@
-# three-careakers-v001  -- "BabyAPI"
+# three-careakers-v002  -- "ToddlerAPI" branch
+
+Builds on the "BabyAPI", but
+1) changes the schema to closer match the DanielAPI.
+2) adds authentication/server key.
 
 These are currently run off my server. I will not push to Heroku. I'm just leaving this on and using ngrok to tunnel. (I will update the server address below if it needs to change).
 
@@ -20,25 +24,38 @@ DELETE http://replaceme.com/api/v1/Customer/:id
 ```
 Instead of Customer, use the table name.
 
-There are 3 TableNames
-* NeedersLookingForMatch
-* CaretakersLookingForMatch
-* MatchedClusters
+** There are 3 TableNames
+(see more details here: https://docs.google.com/spreadsheets/d/1eypLAXlzGPenjPoNDPqgVsZotLbvCEtYYxaEm-oGFVg/edit?usp=sharing
+  NOTE: multiple worksheets in the workbook)
 
-Update 3/31. Added a table to deal with Twilio
-* TwilioBlob
+* Users
+  * Includes information on the GiveOffers
+  * includes location information, quite complex
+  * see schema
+  * Note, Geo (lat+long) is mainly stored here.
+
+* NeedRequests
+  * GEO: link via user, HASH: Y copied, NEED: Y main source
+  * has copied over hashtags
+  * The need information is stored here in `needName`
+
+* GiveOffers
+  * offerName
+  * totalSlots
+  * availableSlots
+  * assignedSlots
+
 
 Example:
 ```
-http://c29a9953.ngrok.io/api/v1/MatchedClusters
+NEW NGROK
 ```
-(clickable: http://c29a9953.ngrok.io/api/v1/MatchedClusters/count)
-NOTE:: This no longer works (3/31). You have to put AUTHENTICATION in the HTTP header. You will get an authentication error. See 3/30 message on authentication in discord channel or read the server.js code.
+(clickable: NEWNGROK: /MatchedClusters/count)
+NOTE: TODO:  AUTHENTICATION in the HTTP header.
 NOTE: (4/4) We are turning on and off Authentication from time to time.
 
 the `http://c29a9953.ngrok.io ` is the hostname as of 2:14pm US New York Time on SUN 3/22. If that host is dead, go to the discord and message @hocho
 
-all variables are of string type.
 
 ## Queries
 More queries (like sort order) are in this doc. https://florianholzapfel.github.io/express-restify-mongoose/
