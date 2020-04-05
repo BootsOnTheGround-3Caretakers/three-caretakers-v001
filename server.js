@@ -6,7 +6,7 @@ const restify = require("express-restify-mongoose");
 const app = express();
 const router = express.Router();
 const cors = require("cors");
-const Storage = require("@google-cloud/storage");
+// const Storage = require("@google-cloud/storage");
 // const Multer = require('multer')
 const axios = require("axios");
 
@@ -30,18 +30,108 @@ var Schema = mongoose.Schema;
 
 // Define models
 //
-// V0001 Schema - to be built by Hocho in restify.
-// NeedersLookingForMatch
-// Email
-// Name
-// ZipCode (we know this is USA specific, this is just for v1mockups)
-// Description
-// Custom1
-// Custom2
-// Hashtags. Example "#VETERAN, #LGBT, #PREGNANT"
+// V0002 (ToddlerAPI) Schema
+// (see https://docs.google.com/spreadsheets/d/1eypLAXlzGPenjPoNDPqgVsZotLbvCEtYYxaEm-oGFVg/edit#gid=1376543690)
+// * Users
+//   * Includes information on the GiveOffers
+//   * includes location information, quite complex
+//   * see schema
+//   * Note, Geo (lat+long) is mainly stored here.
+
+
+var Users = mongoose.model(
+  "Users",
+  new mongoose.Schema({
+// {
+     updated: { type: Date, default: Date.now },
+//     "user_id" : 1592,
+     user_id:  String,
+//     "role" : "giver",
+     role: String,
+//     "name" : "Deborah Smith",
+     officalName: String,
+     alias: String,  // NEW
+//     "email" : {
+//         "address": "tommcclain@lynn.biz",
+//         "verified": False
+//     },
+    email: {
+      address: String,
+      verified: Boolean,
+      adminNotes: String,  //NEW
+    },
+
+//     "phone" : {
+//         "number": "597.356.3257x2539",
+//         "verified": False
+//     },
+    phone: {
+      number: String,
+      verified: Boolean,
+      adminNotes: String,  //NEW
+    },
 //
-var NeedersLookingForMatch = mongoose.model(
-  "NeedersLookingForMatch",
+//     "biography": "fooBar Baz",
+    biography: String,
+//     "imageUrls": ["http://foo.com"],
+    imageUrls: [String],
+//     "otherUrls": [
+//         {
+//             "url": "http://foo.com",
+//             "type": "social"
+//         }
+//     ],
+    otherUrls: []
+
+//     "criticalCategories": ["medical", "elderly"],
+//     "address": {
+//         "regionCode": string,
+//         "languageCode": string,
+//         "postalCode": string,
+//         "sortingCode": string,
+//         "administrativeArea": string,
+//         "locality": string,
+//         "sublocality": string,
+//         "addressLines": [
+//             string
+//         ],
+//         "geo" : {
+//             "lat" : 39.849859,
+//             "lon" : -84.54428
+//         }
+//     },
+//     "hashTags" : [
+//         {
+//             "required": True,
+//             "hashtagName": "foo",
+//             "verified": False
+//         }
+//     ],
+//     "isFirstResponder" : true,
+//     "stillHaveToPhysicallyGoToWork" : false,
+//     "giveOffer" : [
+//         {
+//             "name" : "NavigatingBureacracy",
+//             "totalSlots" : 3,
+//             "availableSlots" : 3,
+//             "assignedSlots" : 0
+//         }
+//     ],
+//     "redFlag": False,
+//     "freeNotes": "adfasdf"
+// }
+   })
+);
+
+
+// * NeedRequests
+//   * GEO: link via user, HASH: Y copied, NEED: Y main source
+//   * has copied over hashtags
+//   * The need information is stored here in `needName`
+//
+
+var NeederRequests = mongoose.model(
+  "NeederRequests",
   new mongoose.Schema({
     updated: { type: Date, default: Date.now },
     email: String,
@@ -63,66 +153,15 @@ var NeedersLookingForMatch = mongoose.model(
 );
 
 
-// Hashtags. Example "#VETERAN, #LGBT, #PREGNANT"
-var CaretakersLookingForMatch = mongoose.model(
-  "CaretakersLookingForMatch",
-  new mongoose.Schema({
-    updated: { type: Date, default: Date.now },
-    email: String,
-    name: String,
-    ZipCode: String,
-    Description: String, //TODO ZZZZ: change this to CareDescription, an array
-    AdditionalInfo: String,
-    Custom1: String,
-    Custom2: String,
-    Hashtags: String, // Hashtags. Example "#VETERAN, #LGBT, #PREGNANT"
-    SlotCount: Number, // 6 means they'd be happy to be matched into 6 clusters. I.e. they are bored/helpful
-  })
-);
-
-// MatchedClusters
+// * GiveOffers
+//   * offerName
+//   * totalSlots
+//   * availableSlots
+//   * assignedSlots
 
 
 
-var MatchedClusters = mongoose.model(
-  "MatchedClusters",
-  new mongoose.Schema({
-    updated: { type: Date, default: Date.now },
-    ClusterIsActive: Boolean,
-    NeederEmail: String,
-    ZipCodeCommon: String,
-    HashtagsCommon: String, // HashtagsCommon. Example "#VETERAN, #LGBT, #PREGNANT"
-    NeederPrimaryNeed: String,
-    Caretaker1Email: String,
-    Caretaker2Email: String,
-    Caretaker3Email: String,
-    Caretaker4Email: String,
-    Caretaker5Email: String,
-    Caretaker6Email: String,
-    Caretaker7Email: String,
-    Caretaker8Email: String,
-    Caretaker9Email: String,
-    Caretaker10Email: String,
-    ExtraJSONstrings: String, // This is a JSONstringify of an object with the 1Needer+3Caretakers.
-    // No standard is set on this. Carefully check the object to see if it conforms
-    // to what you expect. I suggest storing a "typekey" in the object so you
-    // can tell your call to the v001 database API works.
-    MatchCustom101: String,
-    MatchCustom102: String,
-  })
-);
-
-var TwilioBlob = mongoose.model(
-  "TwilioBlob",
-  new mongoose.Schema({
-    updated: { type: Date, default: Date.now },
-    TwilioJSONBlob: String, // This is a JSONstringify of whatever Twilio gives us.
-    Custom701: String,
-    Custom702: String,
-  })
-);
-
-app.get('versionName', function(req, res, next) {
+app.get('/versionName', function(req, res, next) {
   res.send("ToddlerAPI 4_5_2020, simple authentication is on.")
 });
 
@@ -146,7 +185,6 @@ app.use(function(req, res, next) {
 });
 
 restify.serve(router, NeedersLookingForMatch);
-restify.serve(router, TwilioBlob);
 restify.serve(router, CaretakersLookingForMatch);
 restify.serve(router, MatchedClusters);
 
