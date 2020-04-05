@@ -32,6 +32,15 @@ var Schema = mongoose.Schema;
 //
 // V0002 (ToddlerAPI) Schema
 // (see https://docs.google.com/spreadsheets/d/1eypLAXlzGPenjPoNDPqgVsZotLbvCEtYYxaEm-oGFVg/edit#gid=1376543690)
+
+var StandardNeedOffers = mongoose.model(
+  "StandardNeedOffers",
+  new mongoose.Schema({
+     updated: { type: Date, default: Date.now },
+     needOfferName: { type: String, default: Date.now },  //NEED
+  })
+);
+
 // * Users
 //   * Includes information on the GiveOffers
 //   * includes location information, quite complex
@@ -58,7 +67,7 @@ var Users = mongoose.model(
     email: {
       address: String,
       verified: Boolean,
-      adminNotes: String,  //NEW
+      adminNotes: String,  //NEW Liam notes: messages , array, and timestamps of notes
     },
 
 //     "phone" : {
@@ -81,9 +90,10 @@ var Users = mongoose.model(
 //             "type": "social"
 //         }
 //     ],
-    otherUrls: []
+    otherUrls: [ ASK LIAM ]
 
 //     "criticalCategories": ["medical", "elderly"],
+    criticalCategories: [String]  // should be typechecked, maybe enum from another table?
 //     "address": {
 //         "regionCode": string,
 //         "languageCode": string,
