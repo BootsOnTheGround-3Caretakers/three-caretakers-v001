@@ -92,6 +92,7 @@ var MatchedClusters = mongoose.model(
     NeederEmail: String,
     ZipCodeCommon: String,
     HashtagsCommon: String, // HashtagsCommon. Example "#VETERAN, #LGBT, #PREGNANT"
+    NeederPrimaryNeed: String,
     Caretaker1Email: String,
     Caretaker2Email: String,
     Caretaker3Email: String,
@@ -123,18 +124,18 @@ var TwilioBlob = mongoose.model(
 
 
 
-app.use(function(req, res, next) {
-  var str = req.get('Authorization');
-  console.log(Date().toString());
-  if (str==="3CAREGIVERS") {
-    console.log("Authorization GOOD!");
-    next();
-  } else {
-    console.log("Authorization incorrect or missing");
-    res.status(401);
-    res.send("Authorization incorrect or missing");
-  }
-});
+// app.use(function(req, res, next) {
+//   var str = req.get('Authorization');
+//   console.log(Date().toString());
+//   if (str==="3CAREGIVERS") {
+//     console.log("Authorization GOOD!");
+//     next();
+//   } else {
+//     console.log("Authorization incorrect or missing");
+//     res.status(401);
+//     res.send("Authorization incorrect or missing");
+//   }
+// });
 
 app.use(function(req, res, next) {
   console.log(req.get('Authorization'));
