@@ -316,7 +316,7 @@ app.use(function(req, res, next) {
 // Authorization via a simple key.
 app.use(function(req, res, next) {
   var str = req.get('Authorization');
-  console.log(Date().toString());
+  console.log("getting authorization"+ Date().toString());
   if (str==="3CAREGIVERS") {
     console.log("Authorization GOOD!");
     next();
