@@ -306,6 +306,12 @@ app.get('/versionName', function(req, res, next) {
   res.send("ToddlerAPI 4_5_2020, simple authentication is off.")
 });
 
+app.use(function(req, res, next) {
+  console.log(req.get('Authorization Needed'));
+  next();
+});
+
+
 // // Authorization via a simple key.
 // app.use(function(req, res, next) {
 //   var str = req.get('Authorization');
@@ -320,10 +326,6 @@ app.get('/versionName', function(req, res, next) {
 //   }
 // });
 
-// app.use(function(req, res, next) {
-//   console.log(req.get('Authorization'));
-//   next();
-// });
 
 restify.serve(router, GiveOffers);
 restify.serve(router, NeedRequests);
@@ -418,4 +420,5 @@ app.listen(process.env.PORT || port, () => {
   console.log(`Express server listening on port ${process.env.PORT || port}`);
 });
 
+// needed for testing, Mocha/Chai (liam 4/7)
 module.exports = { app, GiveOffers, NeedRequests, CriticalGroups, Tags, StandardNeedOffers, Users}

@@ -24,7 +24,23 @@ DELETE http://replaceme.com/api/v1/Customer/:id
 ```
 Instead of Customer, use the table name.
 
-** There are 3 TableNames
+** There are multiple TableNames
+
+From 4/7:
+```
+restify.serve(router, GiveOffers);
+restify.serve(router, NeedRequests);
+restify.serve(router, CriticalGroups);
+restify.serve(router, Tags);
+restify.serve(router, StandardNeedOffers);
+restify.serve(router, Users);
+```
+Look at server.js
+
+****
+
+
+**** Older, out of date, but gives the "feel of it"
 (see more details here: https://docs.google.com/spreadsheets/d/1eypLAXlzGPenjPoNDPqgVsZotLbvCEtYYxaEm-oGFVg/edit?usp=sharing
   NOTE: multiple worksheets in the workbook)
 
@@ -50,11 +66,12 @@ Example:
 ```
 NEW NGROK
 ```
-(clickable: NEWNGROK: /MatchedClusters/count)
+(clickable: NEWNGROK alternative: https://threecaregivers.pagekite.me/api/v1/Tags/count )
+
 NOTE: TODO:  AUTHENTICATION in the HTTP header.
 NOTE: (4/4) We are turning on and off Authentication from time to time.
 
-the `http://c29a9953.ngrok.io ` is the hostname as of 2:14pm US New York Time on SUN 3/22. If that host is dead, go to the discord and message @hocho
+the `https://threecaregivers.pagekite.me/ ` is the hostname as of 2:14pm US New York Time on SUN 3/22. If that host is dead, go to the discord and message @hocho
 
 
 ## Queries
