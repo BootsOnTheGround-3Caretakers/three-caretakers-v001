@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const restify = require("express-restify-mongoose");
 const app = express();
 const router = express.Router();
+const routerNoAuth = express.Router();
 const cors = require("cors");
 // const Storage = require("@google-cloud/storage");
 // const Multer = require('multer')
@@ -48,7 +49,6 @@ var TagsSchema = new mongoose.Schema({
    "approved": Boolean,
    hashtagName: { type: String, unique: true },  //LIAM DONE HOCHO CHECK
 })
-
 
 var Tags = mongoose.model(
   "Tags",
@@ -302,7 +302,8 @@ var GiveOffers = mongoose.model(
 );
 
 
-restify.serve(router, Tags);  //moved here (earlier to not require authentication).
+restify.serve(routerNoAuth, Tags);  //moved here (earlier to not require authentication).
+app.use(routerNoAuth);
 
 app.get('/versionName', function(req, res, next) {
   res.send("ToddlerAPI 4_5_2020, simple authentication is on for all routes except tags.")
