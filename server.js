@@ -305,7 +305,7 @@ var GiveOffers = mongoose.model(
 restify.serve(router, Tags);  //moved here (earlier to not require authentication).
 
 app.get('/versionName', function(req, res, next) {
-  res.send("ToddlerAPI 4_5_2020, simple authentication is off.")
+  res.send("ToddlerAPI 4_5_2020, simple authentication is on for all routes except tags.")
 });
 
 app.use(function(req, res, next) {

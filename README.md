@@ -67,6 +67,7 @@ Example:
 NEW NGROK
 ```
 (clickable: NEWNGROK alternative: https://threecaregivers.pagekite.me/api/v1/Tags/count )
+(clickable: NEWNGROK alternative: https://threecaregivers.pagekite.me/api/v1/Users/count  Needs authentication, should give error )
 
 NOTE: TODO:  AUTHENTICATION in the HTTP header.
 NOTE: (4/4) We are turning on and off Authentication from time to time.
