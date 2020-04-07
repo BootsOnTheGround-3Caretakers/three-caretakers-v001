@@ -302,6 +302,8 @@ var GiveOffers = mongoose.model(
 );
 
 
+restify.serve(router, Tags);  //moved here (earlier to not require authentication).
+
 app.get('/versionName', function(req, res, next) {
   res.send("ToddlerAPI 4_5_2020, simple authentication is off.")
 });
@@ -311,26 +313,25 @@ app.use(function(req, res, next) {
   next();
 });
 
-
-// // Authorization via a simple key.
-// app.use(function(req, res, next) {
-//   var str = req.get('Authorization');
-//   console.log(Date().toString());
-//   if (str==="3CAREGIVERS") {
-//     console.log("Authorization GOOD!");
-//     next();
-//   } else {
-//     console.log("Authorization incorrect or missing");
-//     res.status(401);
-//     res.send("Authorization incorrect or missing");
-//   }
-// });
+// Authorization via a simple key.
+app.use(function(req, res, next) {
+  var str = req.get('Authorization');
+  console.log(Date().toString());
+  if (str==="3CAREGIVERS") {
+    console.log("Authorization GOOD!");
+    next();
+  } else {
+    console.log("Authorization incorrect or missing");
+    res.status(401);
+    res.send("Authorization incorrect or missing");
+  }
+});
 
 
 restify.serve(router, GiveOffers);
+// restify.serve(router, Tags);  //moved earlier to not require authentication.
 restify.serve(router, NeedRequests);
 restify.serve(router, CriticalGroups);
-restify.serve(router, Tags);
 restify.serve(router, StandardNeedOffers);
 restify.serve(router, Users);
 
